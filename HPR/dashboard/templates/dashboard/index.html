@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>HPR Dashboard</title>
+</head>
+<body>
+    <h1>HPR Dashboard</h1>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">BTC Analysis</button>
+    </form>
+    {% if best_image_base64 %}
+        <h2>Best Return by Holding Period:</h2>
+        <img src="data:image/png;base64,{{ best_image_base64 }}" alt="Best Return Plot">
+    {% endif %}
+    {% if worst_image_base64 %}
+        <h2>Worst Return by Holding Period:</h2>
+        <img src="data:image/png;base64,{{ worst_image_base64 }}" alt="Worst Return Plot">
+    {% endif %}
+</body>
+</html>

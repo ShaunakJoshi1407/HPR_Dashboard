@@ -1,9 +1,11 @@
+<!-- plot_display_tesla.html -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HPR Dashboard</title>
+    <title>Tesla Stock Analysis</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
@@ -39,20 +41,12 @@
             padding: 10px 20px;
             margin-bottom: 20px;
         }
-
-        .btn-custom {
-            margin-right: 10px;
-        }
-
-        .alert-info {
-            margin-top: 20px;
-        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <a class="navbar-brand" href="#">HPR Dashboard</a>
+            <a class="navbar-brand" href="#">Tesla Stock Analysis</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -72,20 +66,10 @@
         </div>
 
         <div class="jumbotron">
-            <h3 class="display-4">HPR Analysis</h3>
-            <p class="lead">Analyze the best and worst return by holding period</p>
+            <h1 class="display-4">Tesla Stock Analysis</h1>
+            <p class="lead">Analyze the best and worst return by holding period for Tesla stocks</p>
             <hr class="my-4">
-            <div class="form-group">
-                <label for="analysisSelect">Select Analysis:</label>
-                <select class="form-control" id="analysisSelect" onchange="submitAnalysis(this.value)">
-                    <option value="" selected disabled>Select an analysis</option>
-                    <option value="{% url 'run_script' %}">BTC Analysis</option>
-                    <option value="{% url 'run_apple_analysis' %}">Apple Analysis</option>
-                    <option value="{% url 'run_tesla_analysis' %}">Tesla Analysis</option>
-                    <option value="{% url 'run_spy_analysis' %}">SPY Analysis</option> <!-- Added SPY option -->
-                    <!-- Add more options as needed -->
-                </select>
-            </div>
+            <a class="btn btn-primary btn-lg" href="{% url 'index' %}" role="button">Back to Home</a>
         </div>
 
         {% if best_image_base64 or worst_image_base64 %}
@@ -101,7 +85,7 @@
         </div>
         {% else %}
         <div class="alert alert-info" role="alert">
-            Please select an analysis to generate the results.
+            Please go back and click on the "Tesla Analysis" button to generate the analysis.
         </div>
         {% endif %}
     </div>
@@ -109,21 +93,5 @@
     <!-- Bootstrap JS and dependencies -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script>
-        function submitAnalysis(url) {
-            if (url) {
-                var form = document.createElement('form');
-                form.setAttribute('method', 'post');
-                form.setAttribute('action', url);
-                var csrfToken = document.createElement('input');
-                csrfToken.setAttribute('type', 'hidden');
-                csrfToken.setAttribute('name', 'csrfmiddlewaretoken');
-                csrfToken.setAttribute('value', '{{ csrf_token }}');
-                form.appendChild(csrfToken);
-                document.body.appendChild(form);
-                form.submit();
-            }
-        }
-    </script>
 </body>
 </html>

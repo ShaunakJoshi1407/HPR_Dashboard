@@ -1,0 +1,97 @@
+<!-- plot_display_tesla.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tesla Stock Analysis</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Custom CSS */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            padding: 20px;
+        }
+
+        h1, h2 {
+            color: #333;
+        }
+
+        .image-container {
+            margin-top: 20px;
+        }
+
+        .image-container h2 {
+            margin-bottom: 10px;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .navbar {
+            background-color: #333;
+            color: #fff;
+            padding: 10px 20px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="#">Tesla Stock Analysis</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'index' %}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">About Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="jumbotron">
+            <h1 class="display-4">Tesla Stock Analysis</h1>
+            <p class="lead">Analyze the best and worst return by holding period for Tesla stocks</p>
+            <hr class="my-4">
+            <a class="btn btn-primary btn-lg" href="{% url 'index' %}" role="button">Back to Home</a>
+        </div>
+
+        {% if best_image_base64 or worst_image_base64 %}
+        <div class="image-container">
+            {% if best_image_base64 %}
+                <h2>Best Return by Holding Period:</h2>
+                <img src="data:image/png;base64,{{ best_image_base64 }}" alt="Best Return Plot">
+            {% endif %}
+            {% if worst_image_base64 %}
+                <h2>Worst Return by Holding Period:</h2>
+                <img src="data:image/png;base64,{{ worst_image_base64 }}" alt="Worst Return Plot">
+            {% endif %}
+        </div>
+        {% else %}
+        <div class="alert alert-info" role="alert">
+            Please go back and click on the "Tesla Analysis" button to generate the analysis.
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

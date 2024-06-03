@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HPR Dashboard</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Custom CSS */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            padding: 20px;
+        }
+
+        h1, h2 {
+            color: #333;
+        }
+
+        .image-container {
+            margin-top: 20px;
+        }
+
+        .image-container h2 {
+            margin-bottom: 10px;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .navbar {
+            background-color: #333;
+            color: #fff;
+            padding: 10px 20px;
+            margin-bottom: 20px;
+        }
+
+        .btn-custom {
+            margin-right: 10px;
+        }
+
+        .alert-info {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="#">HPR Dashboard</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'index' %}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">About Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="jumbotron">
+            <h3 class="display-4">HPR Analysis</h3>
+            <p class="lead">Analyze the best and worst return by holding period</p>
+            <hr class="my-4">
+            <div class="form-group">
+                <label for="analysisSelect">Select Analysis:</label>
+                <select class="form-control" id="analysisSelect" onchange="submitAnalysis(this.value)">
+                    <option value="" selected disabled>Select an analysis</option>
+                    <option value="{% url 'run_script' %}">BTC Analysis</option>
+                    <option value="{% url 'run_apple_analysis' %}">Apple Analysis</option>
+                    <option value="{% url 'run_tesla_analysis' %}">Tesla Analysis</option>
+                    <option value="{% url 'run_spy_analysis' %}">SPY Analysis</option> <!-- Added SPY option -->
+                    <!-- Add more options as needed -->
+                </select>
+            </div>
+        </div>
+
+        {% if best_image_base64 or worst_image_base64 %}
+        <div class="image-container">
+            {% if best_image_base64 %}
+                <h2>Best Return by Holding Period:</h2>
+                <img src="data:image/png;base64,{{ best_image_base64 }}" alt="Best Return Plot">
+            {% endif %}
+            {% if worst_image_base64 %}
+                <h2>Worst Return by Holding Period:</h2>
+                <img src="data:image/png;base64,{{ worst_image_base64 }}" alt="Worst Return Plot">
+            {% endif %}
+        </div>
+        {% else %}
+        <div class="alert alert-info" role="alert">
+            Please select an analysis to generate the results.
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        function submitAnalysis(url) {
+            if (url) {
+                var form = document.createElement('form');
+                form.setAttribute('method', 'post');
+                form.setAttribute('action', url);
+                var csrfToken = document.createElement('input');
+                csrfToken.setAttribute('type', 'hidden');
+                csrfToken.setAttribute('name', 'csrfmiddlewaretoken');
+                csrfToken.setAttribute('value', '{{ csrf_token }}');
+                form.appendChild(csrfToken);
+                document.body.appendChild(form);
+                form.submit();
+            }
+        }
+    </script>
+</body>
+</html>
